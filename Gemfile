@@ -37,6 +37,7 @@ gem "bootsnap", require: false
 
 gem 'jwt'
 gem 'faker', '~> 2.18', '>= 2.18.1'
+gem 'active_model_serializers'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

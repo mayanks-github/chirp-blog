@@ -11,9 +11,9 @@ class ApplicationController < ActionController::API
 
   def current_user
     if auth_token_present?
-      auth_token = AuthToken.find_by(token: auth_token)
-      if auth_token
-        @current_user ||= auth_token.user
+      current_auth_token = AuthToken.find_by(token: auth_token)
+      if current_auth_token
+        @current_user ||= current_auth_token.user
       else
         nil
       end

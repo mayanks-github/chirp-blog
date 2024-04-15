@@ -4,18 +4,18 @@ class Api::V1::BlogsController < ApplicationController
 
   def index
     @blogs = Blog.all
-    render json: @blogs
+    render json: @blogs, each_serializer: BlogSerializer
   end
 
   def show
-    render json: @blog
+    render json: @blog, serializer: BlogSerializer
   end
 
   def create
     @blog = current_user.blogs.build(blog_params)
 
     if @blog.save
-      render json: @blog, status: :created
+      render json: @blog, serializer: BlogSerializer, status: :created
     else
       render json: @blog.errors, status: :unprocessable_entity
     end
@@ -23,7 +23,7 @@ class Api::V1::BlogsController < ApplicationController
 
   def update
     if @blog.update(blog_params)
-      render json: @blog
+      render json: @blog, serializer: BlogSerializer
     else
       render json: @blog.errors, status: :unprocessable_entity
     end
@@ -31,6 +31,7 @@ class Api::V1::BlogsController < ApplicationController
 
   def destroy
     @blog.destroy
+    head :no_content
   end
 
   private

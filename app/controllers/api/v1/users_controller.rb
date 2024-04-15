@@ -5,7 +5,7 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      render json: @user, status: :created
+      render json: @user, serializer: UserSerializer, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -13,7 +13,7 @@ class Api::V1::UsersController < ApplicationController
 
   def edit_email
     if @user.update(email: params[:email])
-      render json: @user
+      render json: @user, serializer: UserSerializer
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -21,7 +21,7 @@ class Api::V1::UsersController < ApplicationController
 
   def edit_number
     if @user.update(number: params[:number])
-      render json: @user
+      render json: @user, serializer: UserSerializer
     else
       render json: @user.errors, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class Api::V1::UsersController < ApplicationController
 
   def edit_password
     if @user.update(password: params[:password])
-      render json: @user
+      render json: @user, serializer: UserSerializer
     else
       render json: @user.errors, status: :unprocessable_entity
     end
