@@ -3,6 +3,8 @@ class User < ApplicationRecord
   before_save :downcase_email
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
 
+  has_many :blogs
+
   private
 
   def downcase_email
