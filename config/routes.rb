@@ -6,6 +6,7 @@ Rails.application.routes.draw do
           post 'register', to: 'users#register'
         end
       end
+      resources :blogs
     end
   end
 end
