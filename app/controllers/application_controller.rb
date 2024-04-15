@@ -1,15 +1,32 @@
 class ApplicationController < ActionController::API
+  def authenticate_user!
+    unless logged_in?
+      render json: { error: 'Unauthorized' }, status: :unauthorized
+    end
+  end
+
   def logged_in?
     !!current_user
   end
 
   def current_user
-    @current_user ||= session[:user_id] && User.find_by(id: session[:user_id])
+    if auth_token_present?
+      auth_token = AuthToken.find_by(token: auth_token)
+      if auth_token
+        @current_user ||= auth_token.user
+      else
+        nil
+      end
+    end
+  end
+  
+  private
+
+  def auth_token_present?
+    !!request.headers['HTTP_ACCESSTOKEN']&.split(' ')&.last
   end
 
-  def authenticate_user
-    unless logged_in?
-      render json: { error: 'Unauthorized' }, status: :unauthorized
-    end
+  def auth_token
+    request.headers['HTTP_ACCESSTOKEN']&.split(' ')&.last
   end
 end
